@@ -37,9 +37,17 @@ function fetchData() {
     .then(data => {
       let chatHistory = (data.wordcloud || "").toLowerCase().split(',');
 
-      counts.A = chatHistory.filter(word => word.trim() === optA.toLowerCase()).length;
-      counts.B = chatHistory.filter(word => word.trim() === optB.toLowerCase()).length;
-      counts.C = chatHistory.filter(word => word.trim() === optC.toLowerCase()).length;
+      counts.A = chatHistory.filter(word =>
+        word.trim() === optA.toLowerCase() || word.trim() === 'a'
+      ).length;
+
+      counts.B = chatHistory.filter(word =>
+        word.trim() === optB.toLowerCase() || word.trim() === 'b'
+      ).length;
+
+      counts.C = chatHistory.filter(word =>
+        word.trim() === optC.toLowerCase() || word.trim() === 'c'
+      ).length;
 
       updateDisplay();
     })
@@ -48,5 +56,5 @@ function fetchData() {
 
 setInterval(fetchData, 1000);
 
-fetch(`${domain}/clear-chat?words=${optA},${optB},${optC}`)
+fetch(`${domain}/clear-chat?words=${optA},${optB},${optC},a,b,c`)
   .then(() => setTimeout(fetchData, 500));
